@@ -9,7 +9,8 @@ const { CourseSchema,
         updateStudentsByCourseId,
         updateAssignmentsByCourseId,
         getCourseAssignmentsById,
-        getRoster } = require('../models/course');
+        getRoster,
+        updateCourseById } = require('../models/course');
 
 router.get('/', async(req, res) => {
   try{
@@ -79,7 +80,24 @@ router.get('/:id', async(req, res) => {
 });
 
 router.patch('/:id', async (req, res) => {
-  
+  if(validation.validateAgainstSchema(req.body, CourseSchema)){
+    const course = validation.extractValidFields(req.body, CourseSchema);
+    try{
+      const id = await updateCourseById(req.params.id, course);
+      res.status(201).send(id);
+    }
+    catch(err){
+      console.error(err);
+      res.status(500).send({
+        error: "Error updating course. Please try again later."
+      });
+    }
+  }
+  else{
+    res.status(400).json({
+      error: "Request body is not a valid course object"
+    });
+  }
 });
 
 router.delete('/:id', async(req, res) => {

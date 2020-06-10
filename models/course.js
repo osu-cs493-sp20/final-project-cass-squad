@@ -66,17 +66,6 @@ async function getCourseById(id) {
 }
 exports.getCourseById = getCourseById;
 
-async function updateCourseById(id) {
-  const db = getDBReference();
-  const collection = db.collection('courses');
-  if (!ObjectId.isValid(id)) {
-    return null;
-  } else {
-
-  }
-}
-exports.updateCourseById = updateCourseById;
-
 async function deleteCourseById(id) {
   const db = getDBReference();
   const collection = db.collection('courses');
@@ -86,6 +75,23 @@ async function deleteCourseById(id) {
   return result.deletedCount > 0;
 }
 exports.deleteCourseById = deleteCourseById;
+
+async function updateCourseById(id, course) {
+  const db = getDBReference();
+  const collection = db.collection('courses');
+  if (!ObjectId.isValid(id)) {
+    return null;
+  } else {
+    const query = { _id: new ObjectId(id) };
+    course.instructorId = new ObjectId(course.instructorId);
+    course.students = await getCourseStudentsById(id);
+    course.assignments = await getCourseAssignmentsById(id);
+    const options = { returnOriginal: false };
+    let results = await collection.findOneAndReplace(query, course, options);
+    return results.value;
+  }
+}
+exports.updateCourseById = updateCourseById;
 
 async function getCourseStudentsById(id) {
   const db = getDBReference();

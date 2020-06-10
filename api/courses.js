@@ -1,6 +1,14 @@
 const router = require('express').Router();
 const validation = require('../lib/validation');
-const { CourseSchema, insertNewCourse, getCoursesPage, getCourseById, deleteCourseById, getCourseStudentsById, updateStudentsByCourseId } = require('../models/course');
+const { CourseSchema,
+        insertNewCourse,
+        getCoursesPage,
+        getCourseById,
+        deleteCourseById,
+        getCourseStudentsById,
+        updateStudentsByCourseId,
+        updateAssignmentsByCourseId,
+        getCourseAssignmentsById } = require('../models/course');
 
 
 router.get('/', async(req, res) => {
@@ -120,7 +128,25 @@ router.get('/:id/roster', async (req, res) => {
 });
 
 router.get('/:id/assignments', async (req, res) => {
-  
+  try {
+    const assignments = await getCourseAssignmentsById(req.params.id);
+    res.status(200).send({
+      "assignments": assignments
+    });
+  } catch (err) {
+
+  }
+});
+
+router.post('/:id/assignments', async (req, res) => {
+  try {
+    if (req.body && (req.body.add || req.body.remove)) {
+      const updatedCourse = await updateAssignmentsByCourseId(req.params.id, req.body);
+      res.status(200).send(updatedCourse.value);
+    }
+  } catch (err) {
+    
+  }
 });
 
 module.exports = router;

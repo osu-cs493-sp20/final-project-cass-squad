@@ -65,6 +65,16 @@ async function getCourseById(id) {
 }
 exports.getCourseById = getCourseById;
 
+async function updateCourseById(id) {
+  const db = getDBReference();
+  const collection = db.collection('courses');
+  if (!ObjectId.isValid(id)) {
+    return null;
+  } else {
+
+  }
+}
+exports.updateCourseById = updateCourseById;
 
 async function deleteCourseById(id) {
   const db = getDBReference();
@@ -106,7 +116,6 @@ async function updateStudentsByCourseId(id, updates) {
       const options = { returnOriginal: false };
       results = await collection.findOneAndUpdate(query, update, options);
     }
-    // TODO: Fix removing students from a course
     if (updates.remove) {
       for (var item in updates.remove) {
         updates.remove[item] = new ObjectId(updates.remove[item]);
@@ -119,3 +128,46 @@ async function updateStudentsByCourseId(id, updates) {
   return results;
 }
 exports.updateStudentsByCourseId = updateStudentsByCourseId;
+
+async function getCourseAssignmentsById(id) {
+  const db = getDBReference();
+  const collection = db.collection('courses');
+  if (!ObjectId.isValid(id)) {
+    return null;
+  } else {
+    const results = await collection
+      .find({ _id: new ObjectId(id) })
+      .toArray();
+    return results[0].assignments;
+  }
+}
+exports.getCourseAssignmentsById = getCourseAssignmentsById;
+
+async function updateAssignmentsByCourseId(id, updates) {
+  const db = getDBReference();
+  const collection = db.collection('courses');
+  let results;
+  if (!ObjectId.isValid(id)) {
+    return null;
+  } else {
+    const query = { _id: new ObjectId(id) };
+    if (updates.add) {
+      for (var item in updates.add) {
+        updates.add[item] = new ObjectId(updates.add[item]);
+      }
+      const update = { $addToSet: { assignments: { $each: updates.add } } };
+      const options = { returnOriginal: false };
+      results = await collection.findOneAndUpdate(query, update, options);
+    }
+    if (updates.remove) {
+      for (var item in updates.remove) {
+        updates.remove[item] = new ObjectId(updates.remove[item]);
+      }
+      const update = { $pull: { assignments: { $in: updates.remove } } };
+      const options = { returnOriginal: false };
+      results = await collection.findOneAndUpdate(query, update, options);
+    }
+  }
+  return results;
+}
+exports.updateAssignmentsByCourseId = updateAssignmentsByCourseId;

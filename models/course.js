@@ -114,6 +114,8 @@ exports.getRoster = getRoster;
 async function convertToCSV(students) {
   for (var item in students) {
     students[item]._id = students[item]._id.toString();
+    delete students[item].password;
+    delete students[item].role;
   }
   const csv = jsonexport(students);
   return csv;

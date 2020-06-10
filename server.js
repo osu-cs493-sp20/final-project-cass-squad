@@ -3,7 +3,7 @@ const api = require('./api');
 const morgan = require('morgan');
 
 const app = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8001;
 
 
 const { connectToDB } = require('./lib/mongo');

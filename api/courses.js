@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const validation = require('../lib/validation');
-const { CourseSchema, insertNewCourse, getCoursesPage, getCourseById, deleteCourseById } = require('../models/course');
+const { CourseSchema, insertNewCourse, getCoursesPage, getCourseById, deleteCourseById, getCourseStudentsById, updateStudentsByCourseId } = require('../models/course');
 
 
 router.get('/', async(req, res) => {
@@ -70,6 +70,9 @@ router.get('/:id', async(req, res) => {
   }
 });
 
+router.patch('/:id', async (req, res) => {
+  
+});
 
 router.delete('/:id', async(req, res) => {
   try{
@@ -89,4 +92,35 @@ router.delete('/:id', async(req, res) => {
     });
   }
 });
+
+router.get('/:id/students', async (req, res) => {
+  try {
+    const students = await getCourseStudentsById(req.params.id);
+    res.status(200).send({
+      "students": students
+    });
+  } catch (err) {
+
+  }
+});
+
+router.post('/:id/students', async (req, res) => {
+  try {
+    if (req.body && (req.body.add || req.body.remove)) {
+      const updatedCourse = await updateStudentsByCourseId(req.params.id, req.body);
+      res.status(200).send(updatedCourse.value);
+    }
+  } catch (err) {
+
+  }
+});
+
+router.get('/:id/roster', async (req, res) => {
+  
+});
+
+router.get('/:id/assignments', async (req, res) => {
+  
+});
+
 module.exports = router;

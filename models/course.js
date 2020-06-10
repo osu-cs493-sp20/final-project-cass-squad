@@ -1,6 +1,7 @@
 const { getDBReference } = require('../lib/mongo');
 const { extractValidFields } = require('../lib/validation');
 const { ObjectId } = require('mongodb');
+const jsonexport = require('jsonexport');
 
 const CourseSchema = {
   subject: {required: true},
@@ -99,6 +100,24 @@ async function getCourseStudentsById(id) {
   }
 }
 exports.getCourseStudentsById = getCourseStudentsById;
+
+async function getRoster(id) {
+  const students = await getCourseStudentsById(id);
+  const db = getDBReference();
+  const collection = db.collection('users');
+  const json_roster = await collection.find({"_id" : {"$in" : students }}).toArray();
+  const csv = await convertToCSV(json_roster);
+  return csv;
+}
+exports.getRoster = getRoster;
+
+async function convertToCSV(students) {
+  for (var item in students) {
+    students[item]._id = students[item]._id.toString();
+  }
+  const csv = jsonexport(students);
+  return csv;
+}
 
 async function updateStudentsByCourseId(id, updates) {
   const db = getDBReference();

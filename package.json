@@ -20,6 +20,7 @@
   "homepage": "https://github.com/osu-cs493-sp20/final-project-cass-squad#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "jsonexport": "^3.0.0",
     "mongodb": "^3.5.7",
     "morgan": "^1.10.0"
   },

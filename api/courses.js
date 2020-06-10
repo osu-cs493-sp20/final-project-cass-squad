@@ -8,8 +8,8 @@ const { CourseSchema,
         getCourseStudentsById,
         updateStudentsByCourseId,
         updateAssignmentsByCourseId,
-        getCourseAssignmentsById } = require('../models/course');
-
+        getCourseAssignmentsById,
+        getRoster } = require('../models/course');
 
 router.get('/', async(req, res) => {
   try{
@@ -108,7 +108,10 @@ router.get('/:id/students', async (req, res) => {
       "students": students
     });
   } catch (err) {
-
+    console.error(err);
+    res.status(500).send({
+      error: "Error fetching students. Please try again later."
+    });
   }
 });
 
@@ -119,12 +122,23 @@ router.post('/:id/students', async (req, res) => {
       res.status(200).send(updatedCourse.value);
     }
   } catch (err) {
-
+    console.error(err);
+    res.status(500).send({
+      error: "Error adding students. Please try again later."
+    });
   }
 });
 
 router.get('/:id/roster', async (req, res) => {
-  
+  try {
+    const csv = await getRoster(req.params.id);
+    res.status(200).send(csv);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({
+      error: "Error fetching roster. Please try again later."
+    });
+  }
 });
 
 router.get('/:id/assignments', async (req, res) => {
@@ -134,7 +148,10 @@ router.get('/:id/assignments', async (req, res) => {
       "assignments": assignments
     });
   } catch (err) {
-
+    console.error(err);
+    res.status(500).send({
+      error: "Error fetching assignments. Please try again later."
+    });
   }
 });
 
@@ -145,7 +162,10 @@ router.post('/:id/assignments', async (req, res) => {
       res.status(200).send(updatedCourse.value);
     }
   } catch (err) {
-    
+    console.error(err);
+    res.status(500).send({
+      error: "Error adding assignments. Please try again later."
+    });
   }
 });
 

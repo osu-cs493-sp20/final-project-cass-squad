@@ -1,0 +1,96 @@
+const router = require('express').Router();
+const multer = require('multer');
+const crypto = require('crypto');
+
+const {
+	getAssignments,
+	saveSubmissionFile,
+	removeUploadedFile,
+	getFilesByAssignmentId
+} = require('../models/assignment');
+
+const fileTypes = {
+	'application/pdf': 'pdf',
+	'application/msword': 'doc',
+	'application/zip': 'zip',
+	'image/gif': 'gif',
+	'image/jpeg': 'jpg',
+	'image/png': 'png'
+};
+
+
+/*
+ * Multer middleware function to upload files to the local file system.
+ */
+const upload = multer({
+	storage: multer.diskStorage({
+		destination: `${__dirname}/uploads`,
+		filename: (req, file, callback) => {
+			const filename = crypto.pseudoRandomBytes(16).toString('hex');
+			const extension = fileTypes[file.mimetype];
+			callback(null, `${filename}.${extension}`);
+		}
+	}),
+	fileFilter: (req, file, callback) => {
+		callback(null, !!fileTypes[file.mimetype]);
+	}
+});
+
+
+/*
+ * Route to fetch all assignments (not yet paginated)
+ */
+router.get('/', async (req, res) => {
+	try {
+		const assignments = await getAssignments();
+		res.status(200).send({ assignments: assignments });
+	} catch (err) {
+		console.log(err);
+		res.status(500).send({ err });
+	}
+});
+
+
+/*
+ * Route to fetch all of an assignment's file submissions given its ID.
+ */
+router.get('/:id/submissions', async (req, res) => {
+	try {
+		const submissions = await getFilesByAssignmentId(req.params.id);
+		res.status(200).send({ submissions: submissions });
+	} catch (err) {
+		console.log(err);
+		res.status(500).send({
+			error: `Unable to fetch assignment  with id ${req.params.id}.`
+		});
+	}
+});
+
+
+/*
+ * Route to upload a file submission for an assignment given its ID.
+ */
+router.post('/:id/submissions', upload.single('file'), async (req, res) => {
+	if (req.file && req.body && req.body.studentId) {
+		// Build file metadata
+		const file = {
+			contentType: req.file.mimetype,
+			filename: req.file.filename,
+			path: req.file.path,
+			assignmentId: req.params.id,
+			studentId: req.body.studentId
+		};
+
+		// Save file to GridFS then remove from local file system
+		const id = await saveSubmissionFile(file);
+		await removeUploadedFile(req.file);
+
+		res.status(201).send({ id: id });
+	} else {
+		res.status(400).send({
+			error: "Request body needs a 'file' submission and the 'studentId' field."
+		});
+	}
+});
+
+module.exports = router;

@@ -1,0 +1,133 @@
+const { ObjectId, GridFSBucket } = require('mongodb');
+const fs = require('fs');
+
+const { getDBReference } = require('../lib/mongo');
+
+exports.getAssignments = async function () {
+	const db = getDBReference();
+	const collection = db.collection('assignments');
+	const results = await collection.find({}).toArray();
+	return results;
+};
+
+
+/*
+ * Function fetch all submissions in the GridFS bucket.
+ */
+exports.getSubmissions = async function () {
+	const db = getDBReference();
+	const bucket = new GridFSBucket(db, { bucketName: 'submissions' });
+	const results = await bucket.find({}).toArray();
+	console.log("== Results:", results);
+	return results;
+};
+
+
+/*
+ * Function to save a submission file to GridFS.
+ */
+exports.saveSubmissionFile = async function (file) {
+	return new Promise((resolve, reject) => {
+		const db = getDBReference();
+		const bucket = new GridFSBucket(db, { bucketName: 'submissions' });
+
+		const metadata = {
+			contentType: file.contentType,
+			path: file.path,
+			assignmentId: file.assignmentId,
+			studentId: file.studentId,
+			timestamp: new Date()
+		};
+
+		const uploadStream = bucket.openUploadStream(
+			file.filename,
+			{ metadata: metadata }
+		);
+
+		fs.createReadStream(file.path).pipe(uploadStream)
+			.on('error', err => {
+				console.log(err);
+				reject(err);
+			})
+			.on('finish', result => {
+				resolve(result._id);
+			});
+	});
+};
+
+
+/*
+ * Function to remove a file from the API's local file system.
+ */
+exports.removeUploadedFile = async function (file) {
+	return new Promise((resolve, reject) => {
+		fs.unlink(file.path, err => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve();
+			}
+		});
+	});
+};
+
+
+/*
+ * Function to fetch a submission file's info with a given ID.
+ */
+exports.getFileInfoById = async function (id) {
+	const db = getDBReference();
+	const bucket = new GridFSBucket(db, { bucketName: 'submissions' });
+
+	if (!ObjectId.isValid(id)) {
+		return null;
+	} else {
+		const results = await bucket.find({ _id: new ObjectId(id) }).toArray();
+		console.log("== Results:", results);
+
+		return results[0];
+	}
+};
+
+
+/*
+ * Function to fetch a file for download with a given ID.
+ */
+exports.getFileDownloadStreamById = function (id) {
+	const db = getDBReference();
+	const bucket = new GridFSBucket(db, { bucketName: 'submissions' });
+
+	if (!ObjectId.isValid(id)) {
+		return null;
+	} else {
+		return bucket.openDownloadStream(new ObjectId(id));
+	}
+};
+
+
+/*
+ * Function to fetch a file for download with a given file name.
+ */
+exports.getFileDownloadStreamByName = function (filename) {
+	const db = getDBReference();
+	const bucket = new GridFSBucket(db, { bucketName: 'submissions' });
+	return bucket.openDownloadStreamByName(filename);
+};
+
+
+/*
+ * Function to fetch all submission files for a specific assignment given its ID.
+ */
+exports.getFilesByAssignmentId = async function (id) {
+	const db = getDBReference();
+	const collection = db.collection('submissions.files');
+
+	if (!ObjectId.isValid(id)) {
+		return null;
+	} else {
+		const results = await collection.find({ 'metadata.assignmentId': new ObjectId(id) }).toArray();
+		console.log("== Results:", results);
+
+		return results;
+	}
+};

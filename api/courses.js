@@ -12,6 +12,22 @@ const { CourseSchema,
         getRoster,
         updateCourseById } = require('../models/course');
 
+const {
+  UserSchema,
+  insertNewUser,
+  validateUser,
+  getUserById,
+  getUserByEmail,
+  getAllUsers,
+  getUserRole
+} = require('../models/user');
+
+const {
+  generateAuthToken,
+  requireAuthentication,
+  maybeAuthentication
+} = require('../lib/auth');
+
 router.get('/', async(req, res) => {
   try{
     console.log('==GET /courses');
@@ -35,32 +51,42 @@ router.get('/', async(req, res) => {
   }
 });
 
-router.post('/', async(req, res) => {
+//must be admin to post new course
+router.post('/', requireAuthentication, async(req, res) => {
   console.log('==POST /courses');
   console.log('==Req.body', req.body);
-  if(validation.validateAgainstSchema(req.body, CourseSchema)){
-    const course = validation.extractValidFields(req.body, CourseSchema);
-    try{
-
-      const id = await insertNewCourse(course);
-      res.status(201).send({
-        id: id
-      });
-    }
-    catch(err){
-      console.error(err);
-      res.status(500).send({
-        error: "Error posting courses. Please try again later."
-      });
-    }
-  }
-  else{
-    res.status(400).json({
-      error: "Request body is not a valid course object"
+  if(!(await getUserRole(req.user) === "admin")){
+    res.status(403).send({
+      error: "Unauthorized to create course"
     });
   }
+  else{
+    if(validation.validateAgainstSchema(req.body, CourseSchema)){
+      const course = validation.extractValidFields(req.body, CourseSchema);
+      try{
+
+        const id = await insertNewCourse(course);
+        res.status(201).send({
+          id: id
+        });
+      }
+      catch(err){
+        console.error(err);
+        res.status(500).send({
+          error: "Error posting courses. Please try again later."
+        });
+      }
+    }
+    else{
+      res.status(400).json({
+        error: "Request body is not a valid course object"
+      });
+    }
+  }
+
 });
 
+// Anyone can get course info
 router.get('/:id', async(req, res) => {
   try{
     console.log('==GET detailed /courses' + req.params.id);
@@ -79,6 +105,7 @@ router.get('/:id', async(req, res) => {
   }
 });
 
+//Only instructors or admins can edit course info
 router.patch('/:id', async (req, res) => {
   if(validation.validateAgainstSchema(req.body, CourseSchema)){
     const course = validation.extractValidFields(req.body, CourseSchema);
@@ -100,22 +127,30 @@ router.patch('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async(req, res) => {
-  try{
-    console.log('==Delete detailed /courses' + req.params.id);
-    const deleteSuccessful = await deleteCourseById(req.params.id);
-    if(deleteSuccessful){
-      res.status(204).end();
-    }
-    else{
-      next();
-    }
-  }
-  catch(err){
-    console.error(err);
-    res.status(500).send({
-      error: "Error deleting course. Please try again later."
+//must be an admin to delete a course
+router.delete('/:id', requireAuthentication, async(req, res) => {
+  if(!(await getUserRole(req.user) === "admin")){
+    res.status(403).send({
+      error: "Unauthorized to create course"
     });
+  }
+  else{
+    try{
+      console.log('==Delete detailed /courses' + req.params.id);
+      const deleteSuccessful = await deleteCourseById(req.params.id);
+      if(deleteSuccessful){
+        res.status(204).end();
+      }
+      else{
+        next();
+      }
+    }
+    catch(err){
+      console.error(err);
+      res.status(500).send({
+        error: "Error deleting course. Please try again later."
+      });
+    }
   }
 });
 

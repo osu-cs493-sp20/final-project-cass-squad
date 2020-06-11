@@ -16,6 +16,13 @@ app.use(express.static('public'));
 
 app.use('/', api);
 
+app.use('*', (err, req, res, next) => {
+  console.log("== Error:", err);
+  res.status(500).send({
+    error: "An error occurred: Try again later."
+  });
+});
+
 app.use('*', function (req, res, next) {
   console.log("====== route does not exist");
   res.status(404).json({

@@ -1,0 +1,456 @@
+[{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a09"
+  },
+  "title": "Assignment 1",
+  "points": 87,
+  "due": "2020-09-13T22:15:37Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a0a"
+  },
+  "title": "Assignment 2",
+  "points": 89,
+  "due": "2020-09-17T21:03:26Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a0b"
+  },
+  "title": "Assignment 3",
+  "points": 30,
+  "due": "2020-07-06T11:51:01Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a0c"
+  },
+  "title": "Assignment 4",
+  "points": 81,
+  "due": "2020-08-09T13:29:49Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a0d"
+  },
+  "title": "Assignment 5",
+  "points": 69,
+  "due": "2020-08-16T04:26:55Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a0e"
+  },
+  "title": "Assignment 6",
+  "points": 91,
+  "due": "2020-07-23T03:46:09Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a0f"
+  },
+  "title": "Assignment 7",
+  "points": 96,
+  "due": "2020-07-18T19:31:19Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a10"
+  },
+  "title": "Assignment 8",
+  "points": 10,
+  "due": "2020-09-18T13:35:53Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a11"
+  },
+  "title": "Assignment 9",
+  "points": 13,
+  "due": "2020-08-29T03:46:42Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a12"
+  },
+  "title": "Assignment 10",
+  "points": 58,
+  "due": "2020-08-29T18:11:29Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a13"
+  },
+  "title": "Assignment 1",
+  "points": 88,
+  "due": "2020-09-26T05:24:34Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a14"
+  },
+  "title": "Assignment 2",
+  "points": 95,
+  "due": "2020-08-21T11:28:01Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a15"
+  },
+  "title": "Assignment 3",
+  "points": 92,
+  "due": "2020-07-16T23:24:29Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a16"
+  },
+  "title": "Assignment 4",
+  "points": 66,
+  "due": "2020-08-08T03:14:23Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a17"
+  },
+  "title": "Assignment 5",
+  "points": 15,
+  "due": "2020-07-19T05:56:11Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a18"
+  },
+  "title": "Assignment 6",
+  "points": 66,
+  "due": "2020-08-09T10:23:29Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a19"
+  },
+  "title": "Assignment 7",
+  "points": 36,
+  "due": "2020-07-22T01:35:16Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a1a"
+  },
+  "title": "Assignment 8",
+  "points": 88,
+  "due": "2020-08-31T21:42:43Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a1b"
+  },
+  "title": "Assignment 9",
+  "points": 11,
+  "due": "2020-07-25T08:57:47Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a1c"
+  },
+  "title": "Assignment 10",
+  "points": 24,
+  "due": "2020-09-25T14:04:02Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a1d"
+  },
+  "title": "Assignment 1",
+  "points": 68,
+  "due": "2020-08-29T15:47:28Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a1e"
+  },
+  "title": "Assignment 2",
+  "points": 73,
+  "due": "2020-09-22T21:04:08Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a1f"
+  },
+  "title": "Assignment 3",
+  "points": 63,
+  "due": "2020-07-19T09:16:36Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a20"
+  },
+  "title": "Assignment 4",
+  "points": 14,
+  "due": "2020-07-22T06:23:27Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a21"
+  },
+  "title": "Assignment 5",
+  "points": 50,
+  "due": "2020-07-18T18:35:13Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a22"
+  },
+  "title": "Assignment 6",
+  "points": 84,
+  "due": "2020-07-31T21:47:29Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a23"
+  },
+  "title": "Assignment 7",
+  "points": 88,
+  "due": "2020-09-14T05:13:18Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a24"
+  },
+  "title": "Assignment 8",
+  "points": 30,
+  "due": "2020-07-10T20:00:16Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a25"
+  },
+  "title": "Assignment 9",
+  "points": 61,
+  "due": "2020-09-05T11:13:50Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a26"
+  },
+  "title": "Assignment 10",
+  "points": 47,
+  "due": "2020-07-05T07:41:19Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a27"
+  },
+  "title": "Homework 1",
+  "points": 14,
+  "due": "2020-08-23T02:32:27Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a28"
+  },
+  "title": "Homework 2",
+  "points": 52,
+  "due": "2020-08-09T10:57:26Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a29"
+  },
+  "title": "Homework 3",
+  "points": 39,
+  "due": "2020-07-10T08:29:41Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a2a"
+  },
+  "title": "Homework 4",
+  "points": 73,
+  "due": "2020-09-20T23:55:19Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a2b"
+  },
+  "title": "Homework 5",
+  "points": 8,
+  "due": "2020-07-25T00:22:34Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a2c"
+  },
+  "title": "Homework 6",
+  "points": 83,
+  "due": "2020-08-18T01:31:09Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a2d"
+  },
+  "title": "Homework 7",
+  "points": 19,
+  "due": "2020-08-07T10:46:22Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a2e"
+  },
+  "title": "Homework 8",
+  "points": 72,
+  "due": "2020-07-22T09:49:53Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a2f"
+  },
+  "title": "Homework 9",
+  "points": 57,
+  "due": "2020-08-17T12:53:56Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a30"
+  },
+  "title": "Homework 10",
+  "points": 43,
+  "due": "2020-07-18T15:51:54Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a31"
+  },
+  "title": "Homework 1",
+  "points": 76,
+  "due": "2020-08-30T09:53:54Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a32"
+  },
+  "title": "Homework 2",
+  "points": 16,
+  "due": "2020-09-29T07:42:39Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a33"
+  },
+  "title": "Homework 3",
+  "points": 47,
+  "due": "2020-09-27T08:10:29Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a34"
+  },
+  "title": "Homework 4",
+  "points": 68,
+  "due": "2020-07-24T12:58:20Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a35"
+  },
+  "title": "Homework 5",
+  "points": 45,
+  "due": "2020-08-02T06:05:26Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a36"
+  },
+  "title": "Homework 6",
+  "points": 53,
+  "due": "2020-08-22T16:49:14Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a37"
+  },
+  "title": "Homework 7",
+  "points": 77,
+  "due": "2020-07-10T11:46:13Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a38"
+  },
+  "title": "Homework 8",
+  "points": 63,
+  "due": "2020-08-28T09:03:53Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a39"
+  },
+  "title": "Homework 9",
+  "points": 81,
+  "due": "2020-08-04T09:38:24Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a3a"
+  },
+  "title": "Homework 10",
+  "points": 10,
+  "due": "2020-09-22T02:13:41Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a3b"
+  },
+  "title": "Project 1",
+  "points": 62,
+  "due": "2020-09-24T07:12:08Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a3c"
+  },
+  "title": "Project 2",
+  "points": 78,
+  "due": "2020-07-18T19:22:44Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a3d"
+  },
+  "title": "Project 3",
+  "points": 12,
+  "due": "2020-09-18T13:09:32Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a3e"
+  },
+  "title": "Project 4",
+  "points": 9,
+  "due": "2020-09-02T02:33:17Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a3f"
+  },
+  "title": "Project 5",
+  "points": 22,
+  "due": "2020-08-17T15:31:22Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a40"
+  },
+  "title": "Project 6",
+  "points": 64,
+  "due": "2020-07-12T12:36:23Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a41"
+  },
+  "title": "Project 7",
+  "points": 79,
+  "due": "2020-07-01T20:28:45Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a42"
+  },
+  "title": "Project 8",
+  "points": 97,
+  "due": "2020-08-07T20:48:46Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a43"
+  },
+  "title": "Project 9",
+  "points": 29,
+  "due": "2020-08-12T10:23:07Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a44"
+  },
+  "title": "Project 10",
+  "points": 62,
+  "due": "2020-07-10T02:41:28Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a45"
+  },
+  "title": "Demo 1",
+  "points": 10,
+  "due": "2020-07-19T10:21:48Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a46"
+  },
+  "title": "Demo 2",
+  "points": 27,
+  "due": "2020-08-10T04:25:43Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a47"
+  },
+  "title": "Demo 3",
+  "points": 59,
+  "due": "2020-08-31T09:28:52Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a48"
+  },
+  "title": "Demo 4",
+  "points": 41,
+  "due": "2020-09-23T04:07:36Z"
+},{
+  "_id": {
+    "$oid": "5ee13eb213e6b43630db7a49"
+  },
+  "title": "Demo 5",
+  "points": 70,
+  "due": "2020-08-04T19:17:58Z"
+}]

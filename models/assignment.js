@@ -118,16 +118,36 @@ exports.getFileDownloadStreamByName = function (filename) {
 /*
  * Function to fetch all submission files for a specific assignment given its ID.
  */
-exports.getFilesByAssignmentId = async function (id) {
+exports.getFilesPageByAssignmentId = async function (id, page) {
 	const db = getDBReference();
 	const collection = db.collection('submissions.files');
 
 	if (!ObjectId.isValid(id)) {
 		return null;
 	} else {
-		const results = await collection.find({ 'metadata.assignmentId': new ObjectId(id) }).toArray();
+		const count = await collection.countDocuments();
+		const protectedCount = count === 0 ? 1 : count;
+
+		const pageSize = 10;
+		const lastPage = Math.ceil(protectedCount / pageSize);
+		page = page > lastPage ? lastPage : page;
+		page = page < 1 ? 1 : page;
+		const offset = (page - 1) * pageSize;
+
+		const results = await collection
+			.find({ 'metadata.assignmentId': id })
+			.skip(offset)
+			.limit(pageSize)
+			.toArray();
+
 		console.log("== Results:", results);
 
-		return results;
+		return {
+			submissions: results,
+			page: page,
+			totalPages: lastPage,
+			pageSize: pageSize,
+			count: count
+		};
 	}
 };

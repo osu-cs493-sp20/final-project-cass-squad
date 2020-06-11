@@ -6,7 +6,7 @@ const {
 	getAssignments,
 	saveSubmissionFile,
 	removeUploadedFile,
-	getFilesByAssignmentId
+	getFilesPageByAssignmentId
 } = require('../models/assignment');
 
 const fileTypes = {
@@ -55,13 +55,26 @@ router.get('/', async (req, res) => {
  * Route to fetch all of an assignment's file submissions given its ID.
  */
 router.get('/:id/submissions', async (req, res) => {
+	const id = req.params.id;
+	const page = parseInt(req.query.page) || 1;
 	try {
-		const submissions = await getFilesByAssignmentId(req.params.id);
-		res.status(200).send({ submissions: submissions });
+		const submissionsPage = await getFilesPageByAssignmentId(id, page);
+
+		submissionsPage.links = {};
+		if (submissionsPage.page < submissionsPage.totalPages) {
+			submissionsPage.links.nextPage = `/assignments/${id}/submissions?page=${submissionsPage.page + 1}`;
+			submissionsPage.links.lastPage = `/assignments/${id}/submissions?page=${submissionsPage.totalPages}`;
+		}
+		if (submissionsPage.page > 1) {
+			submissionsPage.links.prevPage = `/assignments/${id}/submissions?page=${submissionsPage.page - 1}`;
+			submissionsPage.links.firstPage = `/assignments/${id}/submissions?page=1`;
+		}
+
+		res.status(200).send(submissionsPage);
 	} catch (err) {
 		console.log(err);
 		res.status(500).send({
-			error: `Unable to fetch assignment  with id ${req.params.id}.`
+			error: `Unable to fetch submissions for assignment with id ${id}.`
 		});
 	}
 });

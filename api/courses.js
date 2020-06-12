@@ -169,7 +169,7 @@ router.delete('/:id', requireAuthentication, async(req, res) => {
   }
 });
 
-router.get('/:id/students', async (req, res) => {
+router.get('/:id/students', requireAuthentication, async (req, res) => {
   const courseToUpdate = await getCourseById(req.params.id);
   if (!(await getUserRole(req.user) === "admin") && !(req.user.toString() === courseToUpdate.instructorId.toString())) {
     res.status(403).send({
@@ -190,7 +190,7 @@ router.get('/:id/students', async (req, res) => {
   }
 });
 
-router.post('/:id/students', async (req, res) => {
+router.post('/:id/students', requireAuthentication, async (req, res) => {
   const courseToUpdate = await getCourseById(req.params.id);
   if (!(await getUserRole(req.user) === "admin") && !(req.user.toString() === courseToUpdate.instructorId.toString())) {
     res.status(403).send({
@@ -221,7 +221,7 @@ router.post('/:id/students', async (req, res) => {
   }
 });
 
-router.get('/:id/roster', async (req, res) => {
+router.get('/:id/roster', requireAuthentication, async (req, res) => {
   const courseToUpdate = await getCourseById(req.params.id);
   if (!(await getUserRole(req.user) === "admin") && !(req.user.toString() === courseToUpdate.instructorId.toString())) {
     res.status(403).send({

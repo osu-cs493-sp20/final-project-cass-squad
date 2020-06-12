@@ -116,7 +116,7 @@ router.get('/:id', async(req, res) => {
 //Only instructors or admins can edit course info
 router.patch('/:id', requireAuthentication, async (req, res) => {
   const courseToUpdate = await getCourseById(req.params.id);
-  if (!(req.user.toString() === courseToUpdate.instructorId.toString())) {
+  if (!(await getUserRole(req.user) === "admin") && !(req.user.toString() === courseToUpdate.instructorId.toString())) {
     res.status(403).send({
       error: "Unauthorized to create course"
     });

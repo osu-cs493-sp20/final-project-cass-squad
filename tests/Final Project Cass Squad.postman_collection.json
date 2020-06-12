@@ -1,0 +1,841 @@
+{
+	"info": {
+		"_postman_id": "c5aa7db2-59bd-4290-a0d3-8ef0c5e5f2dd",
+		"name": "Final Project Cass Squad",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Courses",
+			"item": [
+				{
+					"name": "/courses",
+					"item": [
+						{
+							"name": "Get all courses",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/courses",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a new course",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWUwMjRkMjEzZTZiNDM2MzBkYjdhMDciLCJpYXQiOjE1OTE5NDU3NjEsImV4cCI6MTU5MjAzMjE2MX0.HwzW80iB-vaK54Jq8BeEUTSUwl58MHwjeHliBcaPC8k",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"subject\": \"CS\",\r\n  \"number\": 493,\r\n  \"title\": \"Cloud Application Development\",\r\n  \"term\": \"sp19\",\r\n  \"instructorId\": \"5ee024d213e6b43630db79ff\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/courses",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "/courses/:id",
+					"item": [
+						{
+							"name": "Get a course",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/courses/:id",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"courses",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "5ee322d1db29224e88b32283"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a course",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWUwMjRkMjEzZTZiNDM2MzBkYjc5ZmYiLCJpYXQiOjE1OTE5NDU3ODEsImV4cCI6MTU5MjAzMjE4MX0.bM1Wf_tooporAwb8h7LvMn3Q0dVZwQwbBvD-Z1a2ttk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"_id\":\"5ee322d1db29224e88b32283\",\n\t\"subject\":\"CS\",\n\t\"number\":493,\n\t\"title\":\"Cloud Application Development - Updated\",\n\t\"term\":\"sp19\",\n\t\"instructorId\":\"5ee024d213e6b43630db79ff\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/courses/:id",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"courses",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "5ee32a2bea5dc952c42f0bba"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a course",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWUwMjRkMjEzZTZiNDM2MzBkYjdhMDciLCJpYXQiOjE1OTE4NjI2NTEsImV4cCI6MTU5MTk0OTA1MX0.BKz2-jI4cUdZqN8DL73JBK_31cGmUCv9hr2WRxjCRhI",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/courses/:id",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"courses",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "/courses/:id/students",
+					"item": [
+						{
+							"name": "Get all students in a course",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/courses/:id/students",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"courses",
+										":id",
+										"students"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "5eddd2a57f5e324690576601"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add/remove students from a course",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"add\": [\n\t\t\"5ee024d213e6b43630db799b\",\n\t\t\"5ee024d213e6b43630db799c\",\n\t\t\"5ee024d213e6b43630db799d\"\n\t],\n\t\"remove\": [\n\t\t\n\t]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/courses/:id/students",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"courses",
+										":id",
+										"students"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "5eddd2a57f5e324690576601"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "/courses/:id/roster",
+					"item": [
+						{
+							"name": "Get a courses roster",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/courses/:id/roster",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"courses",
+										":id",
+										"roster"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "5eddd2a57f5e324690576601"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "/courses/:id/assignments",
+					"item": [
+						{
+							"name": "Get all assignments in a course",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/courses/:id/assignments",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"courses",
+										":id",
+										"assignments"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "5eddd2a57f5e324690576601"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add/remove assignments from a course",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"add\": [\n\t\t\"5ee13eb213e6b43630db7a09\",\n\t\t\"5ee13eb213e6b43630db7a0a\",\n\t\t\"5ee13eb213e6b43630db7a0b\",\n\t\t\"5ee13eb213e6b43630db7a0c\",\n\t\t\"5ee13eb213e6b43630db7a0d\",\n\t\t\"5ee13eb213e6b43630db7a0e\",\n\t\t\"5ee13eb213e6b43630db7a0f\",\n\t\t\"5ee13eb213e6b43630db7a10\",\n\t\t\"5ee13eb213e6b43630db7a11\",\n\t\t\"5ee13eb213e6b43630db7a12\"\n\t],\n\t\"remove\": [\n\n\t]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/courses/:id/assignments",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"courses",
+										":id",
+										"assignments"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "5eddd2a57f5e324690576601"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3ce2864c-f5c1-4eff-b7cb-66a1658238d2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf0e9ec0-9c33-4d2b-badf-af8218585614",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "/users",
+					"item": [
+						{
+							"name": "Create a new course",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Jane Doe\",\r\n  \"email\": \"doej@oregonstate.edu\",\r\n  \"password\": \"hunter2\",\r\n  \"role\": \"student\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "/users/login",
+					"item": [
+						{
+							"name": "Log in a user",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"hmaultby0@google.co.uk\",\n    \"password\": \"hunter2\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users/login",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Log in as an admin",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWUwMjRkMjEzZTZiNDM2MzBkYjdhMDciLCJpYXQiOjE1OTE5NDI0ODgsImV4cCI6MTU5MjAyODg4OH0.MWM6LdClRZuCYQnhzSGWyHorLYcQE5tGl7M4-O_Pe9I",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"obris1@indiatimes.com\",\r\n  \"password\": \"hunter2\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users/login",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "/users/:id",
+					"item": [
+						{
+							"name": "Get a user",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/:id",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get All Users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"wpulley2@about.me\",\n  \t\"password\": \"IaaUPbwzETf\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/users/all",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Assignments",
+			"item": [
+				{
+					"name": "/assignments",
+					"item": [
+						{
+							"name": "Create a new assignment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a50bcc0-0218-42be-8e8e-71e3520d74da",
+										"exec": [
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWUwMjRkMjEzZTZiNDM2MzBkYjdhMDciLCJpYXQiOjE1OTE5NDI3ODEsImV4cCI6MTU5MjAyOTE4MX0.rH0CzNipFG-nXxL6MwvCoNloxFlsESHposxUG5MxBug",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"Assignment 700\",\n\t\"points\": 18,\n\t\"due\": \"2020-07-06T11:51:01Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/assignments/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"assignments",
+										""
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "321",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Delete"
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "/assignments/:id",
+					"item": [
+						{
+							"name": "Get an assignment",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/submissions/5ee2e39d053ca60012d5eb3a",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"submissions",
+										"5ee2e39d053ca60012d5eb3a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update an assignment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2435897b-dc36-41b2-8516-c84080818fa2",
+										"exec": [
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWUwMjRkMjEzZTZiNDM2MzBkYjdhMDciLCJpYXQiOjE1OTE5NDI3ODEsImV4cCI6MTU5MjAyOTE4MX0.rH0CzNipFG-nXxL6MwvCoNloxFlsESHposxUG5MxBug",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"Assignment 69\",\n\t\"points\": 18,\n\t\"due\": \"2020-07-06T11:51:01Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/assignments/:id",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"assignments",
+										":id"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "321",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "5ee323cc53c5530013dd88cd"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete an assignment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e79093c2-989b-4810-b39f-c6112826e8c8",
+										"exec": [
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWUwMjRkMjEzZTZiNDM2MzBkYjdhMDciLCJpYXQiOjE1OTE5NDI3ODEsImV4cCI6MTU5MjAyOTE4MX0.rH0CzNipFG-nXxL6MwvCoNloxFlsESHposxUG5MxBug",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"Assignment 700\",\n\t\"points\": 18,\n\t\"due\": \"2020-07-06T11:51:01Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/assignments/:id",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"assignments",
+										":id"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "321",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "5ee3259453c5530013dd88ce"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "/assignments/:id/submissions",
+					"item": [
+						{
+							"name": "Fetch submissions for an assignment",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/assignments/:id/submissions",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"assignments",
+										":id",
+										"submissions"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a new submission",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "assignmentId",
+											"value": "5ee1c08252d3717df0c90d06",
+											"type": "text"
+										},
+										{
+											"key": "studentId",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/Hannah/Documents/0 OSU Docs/0 Spring 2020/CS458/Projects/vaughanh_nelsonai_cs458_project3.pdf"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/assignments/:id/submissions",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"assignments",
+										":id",
+										"submissions"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

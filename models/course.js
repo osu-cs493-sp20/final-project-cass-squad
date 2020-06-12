@@ -14,6 +14,14 @@ const CourseSchema = {
 exports.CourseSchema = CourseSchema;
 
 
+exports.getCourses = async function () {
+  const db = getDBReference();
+  const collection = db.collection('courses');
+  const results = await collection.find({}).toArray();
+  return results;
+}
+
+
 exports.getCoursesPage = async function(page) {
   const pageSize = 10;
 
@@ -65,6 +73,34 @@ async function getCourseById(id) {
   }
 }
 exports.getCourseById = getCourseById;
+
+async function getCoursesByInstructorId(id) {
+  const db = getDBReference();
+  const collection = db.collection('courses');
+  if (!ObjectId.isValid(id)) {
+    return null;
+  } else {
+    const results = await collection
+      .find({ instructorId: id })
+      .toArray();
+    return results;
+  }
+}
+exports.getCoursesByInstructorId = getCoursesByInstructorId;
+
+async function getCoursesByStudentId(id) {
+  const db = getDBReference();
+  const collection = db.collection('courses');
+  if (!ObjectId.isValid(id)) {
+    return null;
+  } else {
+    const results = await collection
+      .find({ students: { $in: [ id ] } })
+      .toArray();
+    return results;
+  }
+}
+exports.getCoursesByStudentId = getCoursesByStudentId;
 
 async function deleteCourseById(id) {
   const db = getDBReference();

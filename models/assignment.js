@@ -11,6 +11,19 @@ exports.getAssignments = async function () {
 };
 
 
+exports.getAssignmentById = async function (id) {
+	const db = getDBReference();
+	const collection = db.collection('assignments');
+
+	if (!ObjectId.isValid(id)) {
+		return null;
+	} else {
+		const results = await collection.find({ _id: new ObjectId(id) }).toArray();
+		return results[0];
+	}
+};
+
+
 /*
  * Function fetch all submissions in the GridFS bucket.
  */

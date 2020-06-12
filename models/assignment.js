@@ -1,8 +1,33 @@
 const { ObjectId, GridFSBucket } = require('mongodb');
 const fs = require('fs');
-
+const validation = require('../lib/validation');
+const {
+	extractValidFields,
+	validateAgainstSchema
+} = require('../lib/validation');
 const { getDBReference } = require('../lib/mongo');
 
+const AssignmentSchema = {
+  //courseId: {required: true},
+  title: {required: true},
+  points: {required: true},
+  due: {required: true},
+};
+
+exports.AssignmentSchema = AssignmentSchema;
+
+async function insertNewAssignment(assignment) {
+  course = extractValidFields(assignment, AssignmentSchema);
+  const db = getDBReference();
+  const collection = db.collection('assignments');
+  const result = await collection.insertOne(assignment);
+  return result.insertedId;
+}
+exports.insertNewAssignment = insertNewAssignment;
+
+
+
+exports.getAssignments = async function () {
 
 exports.getAssignmentsPage = async function (page) {
 	const db = getDBReference();
@@ -20,7 +45,7 @@ exports.getAssignmentsPage = async function (page) {
 		.skip(offset)
 		.limit(pageSize)
 		.toArray();
-	
+
 	return {
 		assignments: results,
 		page: page,
@@ -30,6 +55,45 @@ exports.getAssignmentsPage = async function (page) {
 	};
 }
 
+
+async function updateAssignmentsById(id, updates) {
+  const db = getDBReference();
+  const collection = db.collection('assignments');
+  let results;
+  if (!ObjectId.isValid(id)) {
+    return null;
+  } else {
+    const query = { _id: new ObjectId(id) };
+    if (updates.add) {
+      for (var item in updates.add) {
+        updates.add[item] = new ObjectId(updates.add[item]);
+      }
+      const update = { $addToSet: { assignments: { $each: updates.add } } };
+      const options = { returnOriginal: false };
+      results = await collection.findOneAndUpdate(query, update, options);
+    }
+    if (updates.remove) {
+      for (var item in updates.remove) {
+        updates.remove[item] = new ObjectId(updates.remove[item]);
+      }
+      const update = { $pull: { assignments: { $in: updates.remove } } };
+      const options = { returnOriginal: false };
+      results = await collection.findOneAndUpdate(query, update, options);
+    }
+  }
+  return results;
+}
+exports.updateAssignmentsById = updateAssignmentsById;
+
+async function deleteAssignmentById(id) {
+  const db = getDBReference();
+  const collection = db.collection('assignments');
+  const result = await collection.deleteOne({
+    _id: new ObjectId(id)
+  });
+  return result.deletedCount > 0;
+}
+exports.deleteAssignmentById = deleteAssignmentById;
 
 exports.getAssignmentById = async function (id) {
 	const db = getDBReference();

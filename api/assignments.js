@@ -1,17 +1,27 @@
 const router = require('express').Router();
 const multer = require('multer');
 const crypto = require('crypto');
-
+const validation = require('../lib/validation');
 const { ObjectId } = require('mongodb');
 
 const { requireAuthentication } = require('../lib/auth');
 
 const {
+	extractValidFields,
+	validateAgainstSchema
+} = require('../lib/validation');
+
+const {
+	AssignmentSchema,
+	insertNewAssignment,
+	getAssignments,
 	getAssignmentsPage,
 	getAssignmentById,
 	saveSubmissionFile,
 	removeUploadedFile,
-	getFilesPageByAssignmentId
+	getFilesPageByAssignmentId,
+	deleteAssignmentById,
+	updateAssignmentsById
 } = require('../models/assignment');
 
 const {
@@ -21,7 +31,10 @@ const {
 	getCourseAssignmentsById,
 	getCourseStudentsById
 } = require('../models/course');
-const { getUserById } = require('../models/user');
+const {
+	 getUserById,
+	 getUserRole
+ } = require('../models/user');
 
 const fileTypes = {
 	'application/pdf': 'pdf',
@@ -74,6 +87,100 @@ router.get('/', async (req, res) => {
 			error: "Error fetching assignments list. Please try again later."
 		});
 	}
+});
+/*
+ * Route to create and store a new assignment
+ */
+
+
+router.post('/', requireAuthentication, async(req, res) => {
+  console.log('==POST /courses');
+  console.log('==Req.body', req.body);
+  if(!(await getUserRole(req.user) === "admin") || (await getUserRole(req.user) === "instructor")){
+    res.status(403).send({
+      error: "Unauthorized to add assignment"
+    });
+  }
+  else{
+    if(validation.validateAgainstSchema(req.body, AssignmentSchema)){
+      const assignment = validation.extractValidFields(req.body, AssignmentSchema);
+      try{
+
+        const id = await insertNewAssignment(assignment);
+        res.status(201).send({
+          id: id
+        });
+      }
+      catch(err){
+        console.error(err);
+        res.status(500).send({
+          error: "Error posting assignment. Please try again later."
+        });
+      }
+    }
+    else{
+      res.status(400).json({
+        error: "Request body is not a valid course object"
+      });
+    }
+  }
+
+});
+
+//Only instructors or admins can edit course info
+router.patch('/:id', requireAuthentication, async (req, res) => {
+	if(!(await getUserRole(req.user) === "admin") || (await getUserRole(req.user) === "instructor")){
+    res.status(403).send({
+      error: "Unauthorized to edit assignment"
+    });
+  }
+  else{
+  if(validation.validateAgainstSchema(req.body, AssignmentSchema)){
+    const assignment = validation.extractValidFields(req.body, AssignmentSchema);
+    try{
+      const id = await updateAssignmentsById(req.params.id, assignment);
+      res.status(201).send(id);
+    }
+    catch(err){
+      console.error(err);
+      res.status(500).send({
+        error: "Error updating assignment. Please try again later."
+      });
+    }
+  }
+  else{
+    res.status(400).json({
+      error: "Request body is not a valid course object"
+    });
+  }
+}
+});
+
+//must be an admin to delete a course
+router.delete('/:id', requireAuthentication, async(req, res) => {
+	if(!(await getUserRole(req.user) === "admin") || (await getUserRole(req.user) === "instructor")){
+    res.status(403).send({
+      error: "Unauthorized to delete assignment"
+    });
+  }
+  else{
+    try{
+      //console.log('==Delete detailed /courses' + req.params.id);
+      const deleteSuccessful = await deleteAssignmentById(req.params.id);
+      if(deleteSuccessful){
+        res.status(204).end();
+      }
+      else{
+        next();
+      }
+    }
+    catch(err){
+      console.error(err);
+      res.status(500).send({
+        error: "Error deleting assignment. Please try again later."
+      });
+    }
+  }
 });
 
 
@@ -208,7 +315,7 @@ router.get('/:id/submissions', requireAuthentication, async (req, res, next) => 
 		const page = parseInt(req.query.page) || 1;
 		try {
 			const submissionsPage = await getFilesPageByAssignmentId(id, page);
-	
+
 			submissionsPage.links = {};
 			if (submissionsPage.page < submissionsPage.totalPages) {
 				submissionsPage.links.nextPage = `/assignments/${id}/submissions?page=${submissionsPage.page + 1}`;
@@ -218,7 +325,7 @@ router.get('/:id/submissions', requireAuthentication, async (req, res, next) => 
 				submissionsPage.links.prevPage = `/assignments/${id}/submissions?page=${submissionsPage.page - 1}`;
 				submissionsPage.links.firstPage = `/assignments/${id}/submissions?page=1`;
 			}
-	
+
 			res.status(200).send(submissionsPage);
 		} catch (err) {
 			console.log(err);
@@ -306,11 +413,11 @@ router.post('/:id/submissions', upload.single('file'), requireAuthentication, as
 				assignmentId: req.params.id,
 				studentId: req.body.studentId
 			};
-	
+
 			// Save file to GridFS then remove from local file system
 			const id = await saveSubmissionFile(file);
 			await removeUploadedFile(req.file);
-	
+
 			res.status(201).send({ id: id });
 		} else {
 			res.status(400).send({

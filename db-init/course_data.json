@@ -1,0 +1,170 @@
+[{
+  "_id": {
+    "$oid": "5eddd2a57f5e324690576601"
+  },
+  "subject": "CS",
+  "number": 160,
+  "title": "Intro To Comp Sci",
+  "term": "sp19",
+  "instructorId": {
+    "$oid": "5ee024d213e6b43630db79ff"
+  },
+  "students": [],
+  "assignments": []
+},{
+  "_id": {
+    "$oid": "5eddd2a57f5e324690576602"
+  },
+  "subject": "CS",
+  "number": 161,
+  "title": "Intro To Comp Sci I",
+  "term": "sp19",
+  "instructorId": {
+    "$oid": "5ee024d213e6b43630db79ff"
+  },
+  "students": [],
+  "assignments": []
+},{
+  "_id": {
+    "$oid": "5eddd2a57f5e324690576603"
+  },
+  "subject": "CS",
+  "number": 162,
+  "title": "Intro To Comp Sci II",
+  "term": "sp19",
+  "instructorId": {
+    "$oid": "5ee024d213e6b43630db79ff"
+  },
+  "students": [],
+  "assignments": []
+},{
+  "_id": {
+    "$oid": "5eddd2a57f5e324690576604"
+  },
+  "subject": "CS",
+  "number": 261,
+  "title": "Data Structures",
+  "term": "sp19",
+  "instructorId": {
+    "$oid": "5ee024d213e6b43630db7a00"
+  },
+  "students": [],
+  "assignments": []
+},{
+  "_id": {
+    "$oid": "5eddd2a57f5e324690576605"
+  },
+  "subject": "CS",
+  "number": 271,
+  "title": "Computer Architecture and Assembly Language",
+  "term": "sp19",
+  "instructorId": {
+    "$oid": "5ee024d213e6b43630db7a01"
+  },
+  "students": [],
+  "assignments": []
+},{
+  "_id": {
+    "$oid": "5eddd2a57f5e324690576606"
+  },
+  "subject": "CS",
+  "number": 290,
+  "title": "Web Development",
+  "term": "sp19",
+  "instructorId": {
+    "$oid": "5ee024d213e6b43630db7a00"
+  },
+  "students": [],
+  "assignments": []
+},{
+  "_id": {
+    "$oid": "5eddd2a57f5e324690576607"
+  },
+  "subject": "CS",
+  "number": 325,
+  "title": "Analysis of Algorithms",
+  "term": "sp19",
+  "instructorId": {
+    "$oid": "5ee024d213e6b43630db7a02"
+  },
+  "students": [],
+  "assignments": []
+},{
+  "_id": {
+    "$oid": "5eddd2a57f5e324690576608"
+  },
+  "subject": "CS",
+  "number": 344,
+  "title": "Operating Systems I",
+  "term": "sp19",
+  "instructorId": {
+    "$oid": "5ee024d213e6b43630db7a03"
+  },
+  "students": [],
+  "assignments": []
+},{
+  "_id": {
+    "$oid": "5eddd2a57f5e324690576609"
+  },
+  "subject": "CS",
+  "number": 372,
+  "title": "Computer Networks",
+  "term": "sp19",
+  "instructorId": {
+    "$oid": "5ee024d213e6b43630db7a01"
+  },
+  "students": [],
+  "assignments": []
+},{
+  "_id": {
+    "$oid": "5eddd2a57f5e32469057660a"
+  },
+  "subject": "CS",
+  "number": 444,
+  "title": "Operating Systems II",
+  "term": "sp19",
+  "instructorId": {
+    "$oid": "5ee024d213e6b43630db7a04"
+  },
+  "students": [],
+  "assignments": []
+},{
+  "_id": {
+    "$oid": "5eddd2a57f5e32469057660b"
+  },
+  "subject": "CS",
+  "number": 475,
+  "title": "Intro To Parallel Programming",
+  "term": "sp19",
+  "instructorId": {
+    "$oid": "5ee024d213e6b43630db7a05"
+  },
+  "students": [],
+  "assignments": []
+},{
+  "_id": {
+    "$oid": "5eddd2a57f5e32469057660c"
+  },
+  "subject": "CS",
+  "number": 492,
+  "title": "Mobile Application Development",
+  "term": "sp19",
+  "instructorId": {
+    "$oid": "5ee024d213e6b43630db7a00"
+  },
+  "students": [],
+  "assignments": []
+},{
+  "_id": {
+    "$oid": "5eddd2a57f5e32469057660d"
+  },
+  "subject": "CS",
+  "number": 493,
+  "title": "Cloud Application Development",
+  "term": "sp19",
+  "instructorId": {
+    "$oid": "5ee024d213e6b43630db7a04"
+  },
+  "students": [],
+  "assignments": []
+}]

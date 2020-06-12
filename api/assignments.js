@@ -15,6 +15,7 @@ const {
 	AssignmentSchema,
 	insertNewAssignment,
 	getAssignments,
+	getAssignmentsPage,
 	getAssignmentById,
 	saveSubmissionFile,
 	removeUploadedFile,
@@ -25,6 +26,7 @@ const {
 
 const {
 	getCourses,
+	getCourseById,
 	getCoursesByInstructorId,
 	getCourseAssignmentsById,
 	getCourseStudentsById
@@ -66,12 +68,24 @@ const upload = multer({
  * Route to fetch all assignments (not yet paginated)
  */
 router.get('/', async (req, res) => {
+	const page = parseInt(req.query.page) || 1;
 	try {
-		const assignments = await getAssignments();
-		res.status(200).send({ assignments: assignments });
+		const assignmentsPage = await getAssignmentsPage(page);
+		assignmentsPage.links = {};
+		if (assignmentsPage.page < assignmentsPage.totalPages) {
+			assignmentsPage.links.nextPage = `/assignments?page=${assignmentsPage.page + 1}`;
+			assignmentsPage.links.lastPage = `/assignments?page=${assignmentsPage.totalPages}`;
+		}
+		if (assignmentsPage.page > 1) {
+			assignmentsPage.links.prevPage = `/assignments?page=${assignmentsPage.page - 1}`;
+			assignmentsPage.links.firstPage = `/assignments?page=1`;
+		}
+		res.status(200).send(assignmentsPage);
 	} catch (err) {
 		console.log(err);
-		res.status(500).send({ err });
+		res.status(500).send({
+			error: "Error fetching assignments list. Please try again later."
+		});
 	}
 });
 /*
@@ -173,19 +187,71 @@ router.delete('/:id', requireAuthentication, async(req, res) => {
 /*
  * Route to fetch a specific assignment with a given ID.
  */
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', requireAuthentication, async (req, res, next) => {
+	const id = req.params.id;
+	let user, courses, isValidInstructor = false;
 	try {
-		const assignment = await getAssignmentById(req.params.id);
-		if (assignment) {
-			res.status(200).send(assignment);
+		// Fetch current user from authentication
+		user = await getUserById(req.user);
+		if (user) {
+			// Fetch user's courses if they are an instructor
+			if (user.role === 'instructor') {
+				try {
+					// Fetch courses based on instructor id
+					courses = await getCoursesByInstructorId(user._id);
+					console.log("== Courses:", courses);
+					if (courses) {
+						// Loop through each course the instructor teaches
+						for (let i = 0; i < courses.length; i++) {
+							const assignments = await getCourseAssignmentsById(courses[i]._id);
+							console.log("== Assignments:", assignments);
+							for (let j = 0; j < assignments.length; j++) {
+								if (assignments[j].toString() === id) {
+									console.log("> Found assignment, exiting loops...");
+									isValidInstructor = true;
+									break;
+								}
+							}
+							if (isValidInstructor) {
+								break;
+							}
+						}
+					} else {
+						next();
+					}
+				} catch (err) {
+					console.log(err);
+					res.status(500).send({
+						error: "Unable to fetch the course for this assignment. Please try again later."
+					});
+				}
+			}
 		} else {
 			next();
 		}
 	} catch (err) {
 		console.log(err);
 		res.status(500).send({
-			error: "Unable to fetch assignment. Please try again later."
+			error: "Unable to fetch current user. Please try again later."
 		});
+	}
+
+	if (user && user.role === 'admin' || isValidInstructor) {
+		try {
+			const assignment = await getAssignmentById(req.params.id);
+			if (assignment) {
+				res.status(200).send(assignment);
+			} else {
+				next();
+			}
+		} catch (err) {
+			console.log(err);
+			res.status(500).send({
+				error: "Unable to fetch assignment. Please try again later."
+			});
+		}
+	} else {
+
 	}
 });
 
@@ -280,53 +346,60 @@ router.get('/:id/submissions', requireAuthentication, async (req, res, next) => 
  */
 router.post('/:id/submissions', upload.single('file'), requireAuthentication, async (req, res, next) => {
 	const id = req.params.id;
-	let user, courses, courseId, isValidStudent = false;
-	try {
-		// Fetch current user from authentication
-		user = await getUserById(req.user);
-		if (user) {
-			if (user.role === 'student') {
-				try {
-					courses = await getCourses();
-					console.log("== Courses:", courses);
-					if (courses) {
-						for (let i = 0; i < courses.length; i++) {
-							courseId = null;
-							const assignments = await getCourseAssignmentsById(courses[i]._id);
-							console.log("== Assignments:", assignments);
-							for (let j = 0; j < assignments.length; j++) {
-								if (assignments[j].toString() === id) {
-									const students = await getCourseStudentsById(courses[i]._id);
-									console.log("== Students:", students);
-									for (let k = 0; k < students.length; k++) {
-										if (students[k].toString() === user._id.toString()) {
-											isValidStudent = true;
+	let user, courses, isValidStudent = false;
+
+	if (req.user) {
+		try {
+			// Fetch current user from authentication
+			user = await getUserById(req.user);
+			if (user) {
+				if (user.role === 'student') {
+					try {
+						courses = await getCourses();
+						console.log("== Courses:", courses);
+						if (courses) {
+							for (let i = 0; i < courses.length; i++) {
+								courseId = null;
+								const assignments = await getCourseAssignmentsById(courses[i]._id);
+								console.log("== Assignments:", assignments);
+								for (let j = 0; j < assignments.length; j++) {
+									if (assignments[j].toString() === id) {
+										const students = await getCourseStudentsById(courses[i]._id);
+										console.log("== Students:", students);
+										for (let k = 0; k < students.length; k++) {
+											if (students[k].toString() === user._id.toString()) {
+												isValidStudent = true;
+												break;
+											}
+										}
+										if (isValidStudent) {
 											break;
 										}
 									}
-									if (isValidStudent) {
-										break;
-									}
 								}
 							}
+						} else {
+							next();
 						}
-					} else {
-						next();
+					} catch (err) {
+						console.log(err);
+						res.status(500).send({
+							error: "Unable to fetch courses"
+						})
 					}
-				} catch (err) {
-					console.log(err);
-					res.status(500).send({
-						error: "Unable to fetch courses"
-					})
 				}
+			} else {
+				next();
 			}
-		} else {
-			next();
+		} catch (err) {
+			console.log(err);
+			res.status(500).send({
+				error: "Unable to fetch current user. Please try again later."
+			});
 		}
-	} catch (err) {
-		console.log(err);
-		res.status(500).send({
-			error: "Unable to fetch current user. Please try again later."
+	} else {
+		res.status(403).send({
+			error: "User credentials must be authenticated to upload a submission."
 		});
 	}
 

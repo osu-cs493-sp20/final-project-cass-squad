@@ -3,12 +3,32 @@ const fs = require('fs');
 
 const { getDBReference } = require('../lib/mongo');
 
-exports.getAssignments = async function () {
+
+exports.getAssignmentsPage = async function (page) {
 	const db = getDBReference();
 	const collection = db.collection('assignments');
-	const results = await collection.find({}).toArray();
-	return results;
-};
+	const count = await collection.countDocuments();
+
+	const pageSize = 10;
+	const lastPage = Math.ceil(count / pageSize);
+	page = page > lastPage ? lastPage : page;
+	page = page < 1 ? 1 : page;
+	const offset = (page - 1) * pageSize;
+
+	const results = await collection.find({})
+		.sort({ _id: 1 })
+		.skip(offset)
+		.limit(pageSize)
+		.toArray();
+	
+	return {
+		assignments: results,
+		page: page,
+		totalPages: lastPage,
+		pageSize: pageSize,
+		count: count
+	};
+}
 
 
 exports.getAssignmentById = async function (id) {

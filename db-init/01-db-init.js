@@ -785,6 +785,7 @@ db.users.insertMany([{
 
 db.assignments.insertMany([{
   "_id": ObjectId("5ee13eb213e6b43630db7a09"),
+  "courseId": ObjectId("5eddd2a57f5e324690576601"),
   "title": "Assignment 1",
   "points": 87,
   "due": "2020-09-13T22:15:37Z"

@@ -28,6 +28,14 @@ const {
   maybeAuthentication
 } = require('../lib/auth');
 
+const {
+  applyRateLimit,
+  getUserTokenBucket,
+  saveUserTokenBucket
+} = require('../lib/limiting');
+
+router.use(applyRateLimit);
+
 router.get('/', async(req, res) => {
   try{
     console.log('==GET /courses');

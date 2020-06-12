@@ -24,7 +24,8 @@
     "jsonexport": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.8",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "redis": "^3.0.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

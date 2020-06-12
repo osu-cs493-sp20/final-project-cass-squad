@@ -16,6 +16,13 @@ const {
   maybeAuthentication
 } = require('../lib/auth');
 
+const {
+  applyRateLimit,
+  getUserTokenBucket,
+  saveUserTokenBucket
+} = require('../lib/limiting');
+
+router.use(applyRateLimit);
 
 router.get('/all', async(req, res) => {
   try{

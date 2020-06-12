@@ -3,7 +3,6 @@ const { extractValidFields } = require('../lib/validation');
 const { ObjectId } = require('mongodb');
 const bcrypt = require('bcryptjs');
 
-
 const UserSchema = {
   name: {required: true},
   email: {required: true},

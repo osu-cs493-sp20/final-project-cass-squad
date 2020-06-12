@@ -34,6 +34,7 @@ exports.saveSubmissionFile = async function (file) {
 		const metadata = {
 			contentType: file.contentType,
 			path: file.path,
+			url: `/media/submissions/${file.filename}`,
 			assignmentId: file.assignmentId,
 			studentId: file.studentId,
 			timestamp: new Date()

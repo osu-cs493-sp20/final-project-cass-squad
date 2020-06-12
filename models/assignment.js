@@ -26,9 +26,6 @@ async function insertNewAssignment(assignment) {
 exports.insertNewAssignment = insertNewAssignment;
 
 
-
-exports.getAssignments = async function () {
-
 exports.getAssignmentsPage = async function (page) {
 	const db = getDBReference();
 	const collection = db.collection('assignments');
@@ -248,4 +245,5 @@ exports.getFilesPageByAssignmentId = async function (id, page) {
 			count: count
 		};
 	}
+
 };

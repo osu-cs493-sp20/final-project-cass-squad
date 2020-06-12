@@ -28,6 +28,10 @@ const {
   maybeAuthentication
 } = require('../lib/auth');
 
+const {
+  ObjectId
+} = require('mongodb');
+
 router.get('/', async(req, res) => {
   try{
     console.log('==GET /courses');
@@ -63,27 +67,31 @@ router.post('/', requireAuthentication, async(req, res) => {
   else{
     if(validation.validateAgainstSchema(req.body, CourseSchema)){
       const course = validation.extractValidFields(req.body, CourseSchema);
-      try{
-
-        const id = await insertNewCourse(course);
-        res.status(201).send({
-          id: id
+      if (!ObjectId.isValid(course.instructorId)) {
+        res.status(400).send({
+          error: "Invalid instructor id provided. Please try again with a different instructor id."
         });
-      }
-      catch(err){
-        console.error(err);
-        res.status(500).send({
-          error: "Error posting courses. Please try again later."
-        });
+      } else {
+        try{
+          const id = await insertNewCourse(course);
+          res.status(201).send({
+            id: id
+          });
+        }
+        catch(err){
+          console.error(err);
+          res.status(500).send({
+            error: "Error posting courses. Please try again later."
+          });
+        }
       }
     }
     else{
       res.status(400).json({
-        error: "Request body is not a valid course object"
+        error: "Request body is not a valid course object."
       });
     }
   }
-
 });
 
 // Anyone can get course info
@@ -106,24 +114,31 @@ router.get('/:id', async(req, res) => {
 });
 
 //Only instructors or admins can edit course info
-router.patch('/:id', async (req, res) => {
-  if(validation.validateAgainstSchema(req.body, CourseSchema)){
-    const course = validation.extractValidFields(req.body, CourseSchema);
-    try{
-      const id = await updateCourseById(req.params.id, course);
-      res.status(201).send(id);
+router.patch('/:id', requireAuthentication, async (req, res) => {
+  const courseToUpdate = await getCourseById(req.params.id);
+  if (!(await getUserRole(req.user) === "admin") && !(req.user.toString() === courseToUpdate.instructorId.toString())) {
+    res.status(403).send({
+      error: "Unauthorized to create course"
+    });
+  } else {
+    if(validation.validateAgainstSchema(req.body, CourseSchema)){
+      const course = validation.extractValidFields(req.body, CourseSchema);
+      try{
+        const id = await updateCourseById(req.params.id, course);
+        res.status(201).send(id);
+      }
+      catch(err){
+        console.error(err);
+        res.status(500).send({
+          error: "Error updating course. Please try again later."
+        });
+      }
     }
-    catch(err){
-      console.error(err);
-      res.status(500).send({
-        error: "Error updating course. Please try again later."
+    else{
+      res.status(400).json({
+        error: "Request body is not a valid course object"
       });
     }
-  }
-  else{
-    res.status(400).json({
-      error: "Request body is not a valid course object"
-    });
   }
 });
 
@@ -155,42 +170,73 @@ router.delete('/:id', requireAuthentication, async(req, res) => {
 });
 
 router.get('/:id/students', async (req, res) => {
-  try {
-    const students = await getCourseStudentsById(req.params.id);
-    res.status(200).send({
-      "students": students
+  const courseToUpdate = await getCourseById(req.params.id);
+  if (!(await getUserRole(req.user) === "admin") && !(req.user.toString() === courseToUpdate.instructorId.toString())) {
+    res.status(403).send({
+      error: "Unauthorized to create course"
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({
-      error: "Error fetching students. Please try again later."
-    });
+  } else {
+    try {
+      const students = await getCourseStudentsById(req.params.id);
+      res.status(200).send({
+        "students": students
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send({
+        error: "Error fetching students. Please try again later."
+      });
+    }
   }
 });
 
 router.post('/:id/students', async (req, res) => {
-  try {
-    if (req.body && (req.body.add || req.body.remove)) {
-      const updatedCourse = await updateStudentsByCourseId(req.params.id, req.body);
-      res.status(200).send(updatedCourse.value);
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({
-      error: "Error adding students. Please try again later."
+  const courseToUpdate = await getCourseById(req.params.id);
+  if (!(await getUserRole(req.user) === "admin") && !(req.user.toString() === courseToUpdate.instructorId.toString())) {
+    res.status(403).send({
+      error: "Unauthorized to create course"
     });
+  } else {
+    const addRemoveSchema = {
+      add: {required: true},
+      remove: {required: true},
+    };
+    if (validation.validateAgainstSchema(req.body, addRemoveSchema)) {
+      try {
+        if (req.body && (req.body.add || req.body.remove)) {
+          const updatedCourse = await updateStudentsByCourseId(req.params.id, req.body);
+          res.status(200).send(updatedCourse.value);
+        }
+      } catch (err) {
+        console.error(err);
+        res.status(500).send({
+          error: "Error adding students. Please try again later."
+        });
+      }
+    } else {
+      res.status(400).json({
+        error: "Request body is not valid."
+      });
+    }
   }
 });
 
 router.get('/:id/roster', async (req, res) => {
-  try {
-    const csv = await getRoster(req.params.id);
-    res.status(200).send(csv);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({
-      error: "Error fetching roster. Please try again later."
+  const courseToUpdate = await getCourseById(req.params.id);
+  if (!(await getUserRole(req.user) === "admin") && !(req.user.toString() === courseToUpdate.instructorId.toString())) {
+    res.status(403).send({
+      error: "Unauthorized to create course"
     });
+  } else {
+    try {
+      const csv = await getRoster(req.params.id);
+      res.status(200).send(csv);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send({
+        error: "Error fetching roster. Please try again later."
+      });
+    }
   }
 });
 

@@ -55,6 +55,9 @@ async function insertNewCourse(course) {
   course = extractValidFields(course, CourseSchema);
   const db = getDBReference();
   const collection = db.collection('courses');
+  course.instructorId = new ObjectId(course.instructorId);
+  course.students = [];
+  course.assignments = [];
   const result = await collection.insertOne(course);
   return result.insertedId;
 }
@@ -121,7 +124,13 @@ async function updateCourseById(id, course) {
     const query = { _id: new ObjectId(id) };
     course.instructorId = new ObjectId(course.instructorId);
     course.students = await getCourseStudentsById(id);
+    if (course.students === null) {
+      course.students = [];
+    }
     course.assignments = await getCourseAssignmentsById(id);
+    if (course.assignments === null) {
+      course.assignments = [];
+    }
     const options = { returnOriginal: false };
     let results = await collection.findOneAndReplace(query, course, options);
     return results.value;

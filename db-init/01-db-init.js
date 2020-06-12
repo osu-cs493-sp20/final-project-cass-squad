@@ -17,8 +17,12 @@ db.courses.insertMany([{
   "title": "Intro To Comp Sci",
   "term": "sp19",
   "instructorId": ObjectId("5ee024d213e6b43630db79ff"),
-  "students":[],
-  "assignments":[]
+  "students":[
+    ObjectId("5ee024d213e6b43630db799b")
+  ],
+  "assignments":[
+    ObjectId("5ee13eb213e6b43630db7a09")
+  ]
 },{
   "_id": ObjectId("5eddd2a57f5e324690576602"),
   "subject": "CS",

@@ -197,15 +197,25 @@ router.post('/:id/students', async (req, res) => {
       error: "Unauthorized to create course"
     });
   } else {
-    try {
-      if (req.body && (req.body.add || req.body.remove)) {
-        const updatedCourse = await updateStudentsByCourseId(req.params.id, req.body);
-        res.status(200).send(updatedCourse.value);
+    const addRemoveSchema = {
+      add: {required: true},
+      remove: {required: true},
+    };
+    if (validation.validateAgainstSchema(req.body, addRemoveSchema)) {
+      try {
+        if (req.body && (req.body.add || req.body.remove)) {
+          const updatedCourse = await updateStudentsByCourseId(req.params.id, req.body);
+          res.status(200).send(updatedCourse.value);
+        }
+      } catch (err) {
+        console.error(err);
+        res.status(500).send({
+          error: "Error adding students. Please try again later."
+        });
       }
-    } catch (err) {
-      console.error(err);
-      res.status(500).send({
-        error: "Error adding students. Please try again later."
+    } else {
+      res.status(400).json({
+        error: "Request body is not valid."
       });
     }
   }

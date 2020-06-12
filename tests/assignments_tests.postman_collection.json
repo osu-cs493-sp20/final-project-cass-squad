@@ -17,19 +17,24 @@
 								{
 									"name": "Upload an assignment submission",
 									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWUwMjRkMjEzZTZiNDM2MzBkYjc5OWIiLCJpYXQiOjE1OTE5Mzc5OTYsImV4cCI6MTU5MjAyNDM5Nn0.RuPyPI1-TQT7Z-T5xRpZQ2jcpsULtjnQVFvfoGiAAO0",
+													"type": "string"
+												}
+											]
+										},
 										"method": "POST",
 										"header": [],
 										"body": {
 											"mode": "formdata",
 											"formdata": [
 												{
-													"key": "assignmentId",
-													"value": "5ee1c08252d3717df0c90d06",
-													"type": "text"
-												},
-												{
 													"key": "studentId",
-													"value": "1",
+													"value": "5ee309e6582cf20a2d6c4ba1",
 													"type": "text"
 												},
 												{
@@ -40,13 +45,13 @@
 											]
 										},
 										"url": {
-											"raw": "{{baseUrl}}/assignments/5ee1c08252d3717df0c90d06/submissions",
+											"raw": "{{baseUrl}}/assignments/5ee13eb213e6b43630db7a09/submissions",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"assignments",
-												"5ee1c08252d3717df0c90d06",
+												"5ee13eb213e6b43630db7a09",
 												"submissions"
 											]
 										}
@@ -56,16 +61,26 @@
 								{
 									"name": "Fetch a specific assignment's submissions",
 									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWUwMjRkMjEzZTZiNDM2MzBkYjc5ZmYiLCJpYXQiOjE1OTE5NDIxODAsImV4cCI6MTU5MjAyODU4MH0.5sxI011Q06N78LaM8zExkw_M6lynu7kAGQ4NMW7SpW8",
+													"type": "string"
+												}
+											]
+										},
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseUrl}}/assignments/5ee1c3d0e39a560833f2ac8b/submissions",
+											"raw": "{{baseUrl}}/assignments/5ee13eb213e6b43630db7a09/submissions",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"assignments",
-												"5ee1c3d0e39a560833f2ac8b",
+												"5ee13eb213e6b43630db7a09",
 												"submissions"
 											]
 										}
@@ -75,10 +90,55 @@
 							],
 							"protocolProfileBehavior": {},
 							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Fetch a specific assignment by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWUwMjRkMjEzZTZiNDM2MzBkYjc5ZmYiLCJpYXQiOjE1OTE5NDIxODAsImV4cCI6MTU5MjAyODU4MH0.5sxI011Q06N78LaM8zExkw_M6lynu7kAGQ4NMW7SpW8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/assignments/5ee13eb213e6b43630db7a09",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"assignments",
+										"5ee13eb213e6b43630db7a09"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Fetch a paginated list of assignments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/assignments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assignments"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
